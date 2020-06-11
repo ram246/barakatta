@@ -5,9 +5,9 @@ class Util {
      * the 2 integers
      */
     let spl = s.split("");
-    spl.map((item, index) => {
-      spl[index] = parseInt(item);
-    });
+    for (let i = 0; i < spl.length; i++) {
+      spl[i] = parseInt(spl[i]);
+    }
     console.log(spl);
     return spl;
   }
@@ -24,3 +24,7 @@ class Constants {
 
 export let util = new Util();
 export let consts = new Constants();
+
+export function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
