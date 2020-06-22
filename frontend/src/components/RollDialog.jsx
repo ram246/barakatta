@@ -5,8 +5,8 @@ import Button from "@material-ui/core/Button";
 
 const NewDialog = withStyles({
   paper: {
-    height: "250px",
-    width: "250px",
+    height: "600px",
+    width: "400px",
   },
 })(Dialog);
 
@@ -17,23 +17,42 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
+  buttons: {
+    margin: "0px 20px",
+    marginBottom: "20px",
+  },
+  rollsLog: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    marginBottom: "20px",
+    marginTop: "20px"
+  }
 }));
 
 export default function RollDialog(props) {
   const { open, onClose } = props;
-  const classes = useStyles();
+  const css = useStyles();
+  const refButtons = React.useRef();
 
   const [rollDisabled, setRollDisabled] = React.useState(false);
   const [content, setContent] = React.useState([]);
   const [rolls, setRolls] = React.useState([]);
+  const [totalRolls, setTotalRolls] = React.useState(0);
+
+  React.useEffect(()=>{
+    if (refButtons.current){
+      refButtons.current.scrollIntoView();
+    }
+  });
 
   const finish = () => {
     setRollDisabled(false);
     setContent([]);
     setRolls([]);
-    onClose(rolls);
+    onClose(rolls, totalRolls);
   };
 
   const rollBarra = () => {
@@ -50,8 +69,8 @@ export default function RollDialog(props) {
     let r = rolls.slice();
     r.push(total);
     setRolls(r);
+    setTotalRolls(totalRolls + total);
 
-    console.log(rolls);
     if (total === 2 || total === 3 || total === 4) {
       // Cannot roll again
       setRollDisabled(true);
@@ -60,7 +79,8 @@ export default function RollDialog(props) {
 
   return (
     <NewDialog disableBackdropClick open={open}>
-      <div className={classes.open}>
+      <div className={css.open}>
+        <div className={css.rollsLog}>
         {content.map((r, i) => {
           return (
             <div key={i}>
@@ -76,10 +96,12 @@ export default function RollDialog(props) {
             </div>
           );
         })}
-        <div>
+        </div>
+        <div ref={refButtons}>
           <Button
             variant="contained"
             color="primary"
+            classes={{root: css.buttons}}
             disabled={rollDisabled}
             onClick={rollBarra}
           >
@@ -89,6 +111,7 @@ export default function RollDialog(props) {
           <Button
             variant="contained"
             color="primary"
+            classes={{root: css.buttons}}
             disabled={!rollDisabled}
             onClick={finish}
           >

@@ -20,6 +20,9 @@ class Constants {
   // Constants:
   // Cordinates are listed as strings first char being the x and second is y
   player_starts = ["", "14", "74", "47", "41"];
+  // Max moves is 49 when there play has at least one kill
+  init_piece_data = {"onBoard": false, "completed": false, "cord": [0,0], "maxMove": 25};
+  
 }
 
 export let util = new Util();

@@ -49,9 +49,9 @@ function GameFunctions(props) {
     setOpenRollDialog(true);
   };
 
-  const rollsDone = (allRolls) => {
+  const rollsDone = (allRolls, total) => {
     setOpenRollDialog(false);
-    onRoll(allRolls);
+    onRoll(allRolls, total);
   };
 
   return (
